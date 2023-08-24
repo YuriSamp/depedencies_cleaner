@@ -9,5 +9,8 @@
   },
   "keywords": [],
   "author": "Yuri",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "cli-progress": "^3.12.0"
+  }
 }
