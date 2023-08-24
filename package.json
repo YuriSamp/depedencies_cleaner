@@ -1,0 +1,13 @@
+{
+  "name": "ndcleaner",
+  "version": "1.0.0",
+  "description": "just a cli to remove node_modules",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "nmcleaner": "./index.js"
+  },
+  "keywords": [],
+  "author": "Yuri",
+  "license": "MIT"
+}

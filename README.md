@@ -1,0 +1,1 @@
+I'm sorry, but I cannot translate a markdown file into English without seeing the original file. Please provide the markdown file for me to translate.
