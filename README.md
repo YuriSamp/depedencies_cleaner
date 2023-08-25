@@ -14,7 +14,7 @@ git clone https://github.com/YuriSamp/depedencies_cleaner
 pnpm install
 ```
 
-### Installing global in your machine.
+### Installing globally in your machine.
 
 ```bash
 npm i -g
