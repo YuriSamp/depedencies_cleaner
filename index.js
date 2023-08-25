@@ -3,32 +3,66 @@ import fs from 'fs';
 import cliProgress from 'cli-progress';
 import chalk from 'chalk';
 
-function nmCleaner() {
+const filterHiddenFiles = (arr) =>
+  arr.filter((item) => !/(^|\/)\.[^\/\.]/g.test(item));
+
+const recursive = (dir, pathsThatWeHaveSeen) => {
+  if (pathsThatWeHaveSeen.includes(dir)) {
+    return;
+  }
+
+  try {
+    const Allfiles = fs.readdirSync(dir);
+    if (Allfiles.length === 0) {
+      return '';
+    }
+
+    pathsThatWeHaveSeen.push(dir);
+    const files = filterHiddenFiles(Allfiles);
+
+    const paths = [];
+    for (let i = 0; i < files.length; i++) {
+      const stat = fs.statSync(`./${dir}/${files[i]}`);
+      if (stat.isDirectory()) {
+        if (files[i] === 'node_modules') {
+          paths.push(`${dir}/node_modules`);
+          continue;
+        }
+        paths.push(recursive(`${dir}/${files[i]}`, pathsThatWeHaveSeen));
+      }
+    }
+    return paths.toString();
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const cleaner = () => {
   fs.readdir('./', (err, stdout, stderr) => {
     if (err) {
       console.error(`exec error: ${err}`);
       return;
     }
 
-    const paths = [];
+    const files = filterHiddenFiles(stdout);
 
-    for (let i = 0; i < stdout.length; i++) {
-      const stat = fs.statSync('./' + stdout[i]);
+    const paths = [];
+    const pathsThatWeHaveSeen = [];
+
+    for (let i = 0; i < files.length; i++) {
+      const stat = fs.statSync(`./${files[i]}`);
       if (stat.isDirectory()) {
-        const diretorios = fs.readdirSync(`./${stdout[i]}`);
-        paths.push(
-          `./${stdout[i]}/${diretorios.filter(
-            (item) => item === 'node_modules'
-          )}`
-        );
+        if (files[i] === 'node_modules') {
+          paths.push('node_modules');
+          continue;
+        }
+        paths.push(recursive(`${files[i].toString()}`, pathsThatWeHaveSeen));
       }
     }
-    const pathsThatHaveNodeModules = paths.filter((path) =>
-      path.includes('node_modules')
-    );
 
-    if (pathsThatHaveNodeModules.length == 0) {
+    if (paths.length == 0) {
       console.log(chalk.red('No node_modules found'));
+      return;
     }
 
     const bar = new cliProgress.SingleBar({
@@ -41,10 +75,10 @@ function nmCleaner() {
       hideCursor: true,
     });
 
-    bar.start(pathsThatHaveNodeModules.length, 0);
-    for (let i = 0; i < pathsThatHaveNodeModules.length; i++) {
+    bar.start(paths.length, 0);
+    for (let i = 0; i < paths.length; i++) {
       fs.rm(
-        pathsThatHaveNodeModules[i],
+        paths[i],
         { recursive: true, force: true },
         (err, stdout, stderr) => {
           if (err) {
@@ -59,6 +93,6 @@ function nmCleaner() {
     bar.stop();
     console.log('\n node_modules deleted successfully');
   });
-}
+};
 
-nmCleaner();
+cleaner();
