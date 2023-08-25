@@ -65,33 +65,31 @@ const cleaner = () => {
       return;
     }
 
+    const cleanerPaths = paths.map((item) => item.replaceAll(',', '').trim());
     const bar = new cliProgress.SingleBar({
       format:
         'CLI Progress |' +
         chalk.cyan('{bar}') +
-        '| {percentage}% || {value}/{total} Chunks || Speed: {speed}',
+        '| {percentage}% || {value}/{total} Chunks',
       barCompleteChar: '\u2588',
       barIncompleteChar: '\u2591',
       hideCursor: true,
     });
 
-    bar.start(paths.length, 0);
-    for (let i = 0; i < paths.length; i++) {
-      fs.rm(
-        paths[i],
-        { recursive: true, force: true },
-        (err, stdout, stderr) => {
-          if (err) {
-            console.log(chalk.red(err.message));
-            bar.stop();
-          }
-        }
-      );
-      bar.increment();
-      bar.update();
+    bar.start(cleanerPaths.length, 0);
+    for (let i = 0; i < cleanerPaths.length; i++) {
+      try {
+        fs.rmSync(cleanerPaths[i], { recursive: true, force: true });
+        bar.increment();
+        bar.update();
+      } catch (error) {
+        console.log(error);
+        bar.stop();
+      }
     }
     bar.stop();
     console.log('\n node_modules deleted successfully');
+    return;
   });
 };
 
