@@ -14,6 +14,12 @@ git clone https://github.com/YuriSamp/depedencies_cleaner
 pnpm install
 ```
 
+### Installing global in your machine.
+
+```bash
+npm i -g
+```
+
 ### Running the application.
 
 Then, run the application in the command line in your project file and will delete every node_modules
