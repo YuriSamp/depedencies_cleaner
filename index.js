@@ -11,13 +11,14 @@ const recursive = (dir, pathsThatWeHaveSeen) => {
     return;
   }
 
+  pathsThatWeHaveSeen.push(dir);
+
   try {
     const Allfiles = fs.readdirSync(dir);
     if (Allfiles.length === 0) {
       return '';
     }
 
-    pathsThatWeHaveSeen.push(dir);
     const files = filterHiddenFiles(Allfiles);
 
     const paths = [];
