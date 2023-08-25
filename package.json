@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "bin": {
-    "nmcleaner": "./index.js"
+    "dpremove": "./index.js"
   },
   "keywords": [],
   "author": "Yuri",

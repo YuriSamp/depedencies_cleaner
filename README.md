@@ -1,1 +1,23 @@
-I'm sorry, but I cannot translate a markdown file into English without seeing the original file. Please provide the markdown file for me to translate.
+## How it works
+
+This is a script to remove every node_modules from your pc
+
+### Cloning the repository the local machine.
+
+```bash
+git clone https://github.com/YuriSamp/depedencies_cleaner
+```
+
+### Installing the dependencies.
+
+```bash
+pnpm install
+```
+
+### Running the application.
+
+Then, run the application in the command line in your project file and will delete every node_modules
+
+```bash
+dpremove
+```
