@@ -25,5 +25,5 @@ npm i -g
 Then, run the application in the command line in your project file and will delete every node_modules
 
 ```bash
-dpremove
+nodecleaner
 ```

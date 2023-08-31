@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "bin": {
-    "dpremove": "./index.js"
+    "nodecleaner": "./index.js"
   },
   "keywords": [],
   "author": "Yuri",
